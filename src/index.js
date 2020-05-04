@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import PlayGame from './scene';
+
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -11,24 +13,7 @@ const config = {
           debug: false
       }
   },
-  scene: {
-      preload: preload,
-      create: create,
-      update: update
-  }
+  scene: PlayGame
 };
 
-const game = new Phaser.Game(config);
-
-function preload ()
-{
-
-}
-
-function create ()
-{
-}
-
-function update ()
-{
-}
+let game = new Phaser.Game(config);
