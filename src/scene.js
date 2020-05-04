@@ -1,20 +1,21 @@
-import Phaser from 'phaser';
+import Phaser from "phaser";
+
+var space;
+var backgroundVelocity;
 
 class PlayGame extends Phaser.Scene {
-  preload ()
-  {
-    this.load.image('sky', require('./assets/sky.png'));
+  preload() {
+    this.load.image("space", require("./assets/space.png"));
   }
 
-  create ()
-  {
-    this.add.image(0, 0, 'sky').setOrigin(0, 0);
+  create() {
+    space = this.add.tileSprite(0, 0, 800, 600, "space").setOrigin(0, 0);
+    backgroundVelocity = 1;
   }
 
-  update ()
-  {
+  update() {
+    space.tilePositionY += backgroundVelocity;
   }
-
 }
 
 export default PlayGame;
