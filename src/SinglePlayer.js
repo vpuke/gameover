@@ -16,9 +16,9 @@ class PlayGame extends Phaser.Scene {
 
   create() {
     space = this.add.tileSprite(0, 0, 800, 600, "space").setOrigin(0, 0);
-    backgroundVelocity = 1;
+    backgroundVelocity = -1;
 
-    ship = this.physics.add.sprite(400, 500, "ship").setScale(0.6);
+    ship = this.physics.add.sprite(400, 500, "ship").setScale(0.4);
     ship.setBounce(0.2);
     ship.setCollideWorldBounds(true);
 
