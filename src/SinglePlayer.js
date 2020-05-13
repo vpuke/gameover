@@ -4,10 +4,17 @@ let space;
 let backgroundVelocity;
 let ship;
 let cursors;
+let playerFire;
+let lastFired = -1;
+// http://labs.phaser.io/edit.html?src=src/pools/bullets.js
 
 class PlayGame extends Phaser.Scene {
   preload() {
     this.load.image("space", require("./assets/space.png"));
+    this.load.spritesheet("playerFire", require("./assets/shot.png"), {
+      frameWidth: 104,
+      frameHeight: 104,
+    });
     this.load.spritesheet("ship", require("./assets/ship.png"), {
       frameWidth: 75,
       frameHeight: 160,
@@ -22,6 +29,20 @@ class PlayGame extends Phaser.Scene {
     ship.setBounce(0.2);
     ship.setCollideWorldBounds(true);
 
+    playerFire = this.physics.add
+      .sprite(ship.x, ship.y, "playerFire")
+      .setScale(0.5);
+
+    this.anims.create({
+      key: "playerFire",
+      frames: this.anims.generateFrameNames("playerFire", {
+        start: 6,
+        end: 6,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
     this.anims.create({
       key: "fly",
       frames: this.anims.generateFrameNames("ship", { start: 0, end: 3 }),
@@ -32,9 +53,10 @@ class PlayGame extends Phaser.Scene {
     cursors = this.input.keyboard.createCursorKeys();
   }
 
-  update() {
+  update(time, delta) {
     space.tilePositionY += backgroundVelocity;
 
+    playerFire.anims.play("playerFire", true);
     ship.anims.play("fly", true);
 
     if (cursors.left.isDown && cursors.up.isDown) {
@@ -72,7 +94,19 @@ class PlayGame extends Phaser.Scene {
     } else {
       ship.setVelocityX(0);
     }
+
+    lastFired -= delta;
+    if (cursors.space.isDown && lastFired < 0) {
+      lastFired = 1000;
+      shotsFired();
+    }
   }
+}
+
+function shotsFired() {
+  playerFire.enableBody(true, ship.x, ship.y, true, true);
+  playerFire.setVelocityY(-400);
+  playerFire.body.setGravityY(-400);
 }
 
 export default PlayGame;
