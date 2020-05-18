@@ -14,7 +14,6 @@ class StartScreen extends Phaser.Scene {
 
   preload() {
     this.load.image("space", require("./assets/space.png"));
-
     this.load.spritesheet("ship", require("./assets/ship.png"), {
       frameWidth: 75,
       frameHeight: 160,
