@@ -228,7 +228,7 @@ function addEnemyShots()
 {
   enemies.children.iterate(child => {
 
-    if(child.active !== false)
+    if (child.active !== false)
     {
       let shot = this.physics.add.sprite(child.x, child.y+50, "enemyShot");
       enemyShots.add(shot);
