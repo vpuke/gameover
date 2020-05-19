@@ -15,6 +15,7 @@ let lastFired = -1;
 
 let playAgain;
 let highscore;
+let updatedEnemies;
 
 class PlayGame extends Phaser.Scene {
   constructor() {
@@ -64,7 +65,6 @@ class PlayGame extends Phaser.Scene {
       .setScale(0.5);
 
     enemyShots = this.physics.add.group();
-
     enemies = this.physics.add.group();
 
     addEnemiesTimer = this.time.addEvent({
@@ -75,11 +75,11 @@ class PlayGame extends Phaser.Scene {
     });
 
     enemyShotTimer = this.time.addEvent({
-      delay: 1800,
+      delay: 2500,
       callback: addEnemyShots,
       callbackScope: this,
       loop: true
-    })
+    });
 
     this.anims.create({
       key: "playerFire",
@@ -123,6 +123,7 @@ class PlayGame extends Phaser.Scene {
 
     this.physics.add.collider(ship, enemies, hitShip, null, this);
     this.physics.add.overlap(ship, enemyShots, hitShip, null, this);
+    this.physics.add.overlap(enemies, playerFire, hitEnemy, null, this);
   }
 
   update(time, delta) {
@@ -133,7 +134,7 @@ class PlayGame extends Phaser.Scene {
 
     enemies.children.iterate(child => {
       child.play("enemyFly", true);
-      child.setVelocityY(60);
+      child.setVelocityY(40);
     });
 
     enemyShots.children.iterate(child => {
@@ -226,21 +227,34 @@ function addEnemies()
 function addEnemyShots()
 {
   enemies.children.iterate(child => {
-    let shot = this.physics.add.sprite(child.x, child.y+50, "enemyShot");
-    enemyShots.add(shot);
+
+    if(child.active !== false)
+    {
+      let shot = this.physics.add.sprite(child.x, child.y+50, "enemyShot");
+      enemyShots.add(shot);
+    }
   })
 }
 
-function hitShip(ship, object)
+function hitShip(ship, enemyObject)
 {
   enemyShotTimer.destroy();
-  object.disableBody(true, true);
+  enemyObject.disableBody(true, true);
   ship.disableBody(true, true);
   let explosion = this.physics.add.sprite(ship.x, ship.y, "explosion").setScale(0.6);
   explosion.anims.play("shipExplosion", true);
   this.physics.pause();
 
   gameOver = true;
+}
+
+function hitEnemy(enemy, fire)
+{
+  enemies.remove(enemy, true, true);
+  enemy.active = false;
+  let explosion = this.physics.add.sprite(enemy.x, enemy.y, "explosion").setScale(0.6);
+  explosion.anims.play("shipExplosion", true);
+  fire.disableBody(true, true);
 }
 
 export default PlayGame;
