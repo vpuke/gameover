@@ -13,9 +13,14 @@ let playerFire;
 let lastFired = -1;
 // http://labs.phaser.io/edit.html?src=src/pools/bullets.js
 
+let playAgain;
+let highscore;
+
 class PlayGame extends Phaser.Scene {
   constructor() {
-    super({ key: "PlayGame" });
+    super({
+      key: "PlayGame"
+    });
   }
 
   preload() {
@@ -138,7 +143,28 @@ class PlayGame extends Phaser.Scene {
 
     if (gameOver)
     {
-      return;
+      this.add.text(200, 100, "GAME OVER", {
+        fill: "#FFFFFF",
+        fontSize: "60px",
+        fontFamily: "Orbitron",
+      });
+
+      playAgain = this.add.text(290, 300, "PLAY AGAIN", {
+        fill: "#FFFFFF",
+        fontSize: "35px",
+        fontFamily: "Orbitron",
+      });
+
+      highscore = this.add.text(290, 350, "HIGHSCORE", {
+        fill: "#FFFFFF",
+        fontSize: "35px",
+        fontFamily: "Orbitron",
+      });
+
+      playAgain.setInteractive().on("pointerdown", () => {
+        gameOver = false;
+        this.scene.restart();
+      });
     }
 
     if (cursors.left.isDown && cursors.up.isDown) {
