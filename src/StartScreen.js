@@ -23,10 +23,10 @@ class StartScreen extends Phaser.Scene {
   create() {
     this.add.tileSprite(0, 0, 800, 600, "space").setOrigin(0, 0);
 
-    this.add.text(230, 100, "SPACESHOOTER", {
+    this.add.text(180, 100, "SPACESHOOTER", {
       fill: "#FFFFFF",
       fontSize: "50px",
-      fontFamily: "Roboto",
+      fontFamily: "Orbitron"
     });
 
     var SinglePlayer = this.add
@@ -36,8 +36,8 @@ class StartScreen extends Phaser.Scene {
         "ship",
         this.add.text(225, 550, "Single Player", {
           fill: "#FFFFFF",
-          fontSize: "20px",
-          fontFamily: "Roboto",
+          fontSize: "16px",
+          fontFamily: "Orbitron",
         })
       )
       .setScale(0.7);
