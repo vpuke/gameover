@@ -63,11 +63,18 @@ class PlayGame extends Phaser.Scene {
     enemies = this.physics.add.group();
 
     addEnemiesTimer = this.time.addEvent({
-      delay: 2500,
+      delay: 3500,
       callback: addEnemies,
       callbackScope: this,
       loop: true
     });
+
+    enemyShotTimer = this.time.addEvent({
+      delay: 1800,
+      callback: addEnemyShots,
+      callbackScope: this,
+      loop: true
+    })
 
     this.anims.create({
       key: "playerFire",
@@ -95,23 +102,9 @@ class PlayGame extends Phaser.Scene {
 
     this.anims.create({
       key: "shotFired",
-      frames: this.anims.generateFrameNames("enemyShot", { start: 0, end: 5 }),
-      frameRate: 10,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: "shotFlying",
-      frames: this.anims.generateFrameNames("enemyShot", { start: 6, end: 6 }),
-      frameRate: 10,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: "shotExplosion",
-      frames: this.anims.generateFrameNames("enemyShot", { start: 7, end: 11 }),
-      frameRate: 10,
-      repeat: -1
+      frames: this.anims.generateFrameNames("enemyShot", { start: 0, end: 11 }),
+      frameRate: 8,
+      repeat: 6
     });
 
     this.anims.create({
@@ -124,6 +117,7 @@ class PlayGame extends Phaser.Scene {
     cursors = this.input.keyboard.createCursorKeys();
 
     this.physics.add.collider(ship, enemies, hitShip, null, this);
+    this.physics.add.overlap(ship, enemyShots, hitShip, null, this);
   }
 
   update(time, delta) {
@@ -134,10 +128,12 @@ class PlayGame extends Phaser.Scene {
 
     enemies.children.iterate(child => {
       child.play("enemyFly", true);
+      child.setVelocityY(60);
     });
 
     enemyShots.children.iterate(child => {
       child.play("shotFired", true);
+      child.setVelocityY(200);
     })
 
     if (gameOver)
@@ -199,17 +195,26 @@ function addEnemies()
 {
   let enemy = this.physics.add.sprite(Phaser.Math.Between(35, this.game.config.width-35), -75, "enemy").setScale(0.6);
   enemies.add(enemy);
-
-  let shot = this.physics.add.sprite(enemy.x, enemy.y+40, "enemyShot");
-  enemyShots.add(shot);
 }
 
-function hitShip(ship, enemy)
+function addEnemyShots()
 {
+  enemies.children.iterate(child => {
+    let shot = this.physics.add.sprite(child.x, child.y+50, "enemyShot");
+    enemyShots.add(shot);
+  })
+}
+
+function hitShip(ship, object)
+{
+  enemyShotTimer.destroy();
+  object.disableBody(true, true);
   ship.disableBody(true, true);
   let explosion = this.physics.add.sprite(ship.x, ship.y, "explosion").setScale(0.6);
   explosion.anims.play("shipExplosion", true);
   this.physics.pause();
+
+  gameOver = true;
 }
 
 export default PlayGame;
