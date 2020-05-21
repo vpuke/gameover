@@ -6,17 +6,15 @@ let ship;
 let enemies;
 let enemyShots;
 let cursors;
-let addEnemiesTimer;
-let enemyShotTimer;
+let addEnemiesDelay = 3500;
+let addEnemyShotsDelay = 2500;
 let gameOver = false;
-// let playerFire;
-// let lastFired = -1;
+let enemyShotTimer;
 let score = 0;
 let scoreText;
 let playAgain;
 let highscore;
 
-// http://labs.phaser.io/edit.html?src=src/pools/bullets.js
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -68,10 +66,8 @@ class PlayGame extends Phaser.Scene {
   preload() {
     this.load.image("space", require("./assets/space.png"));
 
-    this.load.spritesheet("playerFire", require("./assets/shot.png"), {
-      frameWidth: 102,
-      frameHeight: 104,
-    });
+    this.load.image("playerFire", require("./assets/shot.png"));
+
     this.load.spritesheet("ship", require("./assets/ship.png"), {
       frameWidth: 75,
       frameHeight: 160,
@@ -103,45 +99,28 @@ class PlayGame extends Phaser.Scene {
     ship.setBounce(0.2);
     ship.setCollideWorldBounds(true);
 
-    // playerFire = this.physics.add
-    //   .sprite(ship.x, ship.y, "playerFire")
-    //   .setScale(0.5);
-
     enemyShots = this.physics.add.group();
     enemies = this.physics.add.group();
 
-    addEnemiesTimer = this.time.addEvent({
-      delay: 3500,
+    this.time.addEvent({
+      delay: addEnemiesDelay,
       callback: addEnemies,
       callbackScope: this,
       loop: true,
     });
 
     enemyShotTimer = this.time.addEvent({
-      delay: 2500,
+      delay: addEnemyShotsDelay,
       callback: addEnemyShots,
       callbackScope: this,
       loop: true
     });
 
-    // this.anims.create({
-    //   key: "playerFire",
-    //   frames: this.anims.generateFrameNames("playerFire", {
-    //     start: 6,
-    //     end: 6,
-    //   }),
-    //   frameRate: 1,
-    //   repeat: -1,
-    // });
-
-    this.anims.create({
-      key: "playerFire",
-      frames: this.anims.generateFrameNames("playerFire", {
-        start: 6,
-        end: 6,
-      }),
-      frameRate: 10,
-      repeat: -1,
+    this.time.addEvent({
+      delay: 15000,
+      callback: difficulty,
+      callbackScope: this,
+      loop: true
     });
 
     this.anims.create({
@@ -222,6 +201,11 @@ class PlayGame extends Phaser.Scene {
 
       playAgain.setInteractive().on("pointerdown", () => {
         gameOver = false;
+
+        // addEnemiesDelay = 3500;
+        // addEnemyShotsDelay = 2500;
+        // scoreText.setText("Ships Destroyed: 0");
+
         this.scene.restart();
       });
     }
@@ -272,6 +256,7 @@ class PlayGame extends Phaser.Scene {
 }
 
 function addEnemies() {
+  console.log(addEnemiesDelay);
   let enemy = this.physics.add
     .sprite(Phaser.Math.Between(35, this.game.config.width - 35), -75, "enemy")
     .setScale(0.6);
@@ -300,6 +285,8 @@ function hitShip(ship, enemyObject)
   explosion.anims.play("shipExplosion", true);
   this.physics.pause();
 
+  backgroundVelocity = 0;
+
   gameOver = true;
 }
 
@@ -313,6 +300,12 @@ function hitEnemy(enemy, fire)
 
   let explosion = this.physics.add.sprite(enemy.x, enemy.y, "explosion").setScale(0.6);
   explosion.anims.play("shipExplosion", true);
+}
+
+function difficulty()
+{
+  backgroundVelocity -= 0.2;
+  addEnemiesDelay -= 200;
 }
 
 export default PlayGame;
