@@ -259,7 +259,6 @@ class PlayGame extends Phaser.Scene {
 }
 
 function addEnemies() {
-  console.log(addEnemiesDelay);
   let enemy = this.physics.add
     .sprite(Phaser.Math.Between(35, this.game.config.width - 35), -75, "enemy")
     .setScale(0.6);
@@ -279,10 +278,12 @@ function hitShip(ship, enemyObject) {
   enemyShotTimer.destroy();
   enemyObject.disableBody(true, true);
   ship.disableBody(true, true);
+
   let explosion = this.physics.add
     .sprite(ship.x, ship.y, "explosion")
     .setScale(0.6);
   explosion.anims.play("shipExplosion", true);
+
   this.physics.pause();
 
   backgroundVelocity = 0;
