@@ -200,10 +200,8 @@ class PlayGame extends Phaser.Scene {
 
       playAgain.setInteractive().on("pointerdown", () => {
         gameOver = false;
-
-        // addEnemiesDelay = 3500;
-        // addEnemyShotsDelay = 2500;
-        // scoreText.setText("Ships Destroyed: 0");
+        score = 0;
+        addEnemiesDelay = 3500;
 
         this.scene.restart();
       });
