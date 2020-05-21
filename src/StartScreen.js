@@ -13,15 +13,15 @@ class StartScreen extends Phaser.Scene {
   init() {}
 
   preload() {
-    this.load.image("space", require("./assets/space.png"));
-    this.load.spritesheet("ship", require("./assets/ship.png"), {
+    this.load.image("background", require("./assets/space.png"));
+    this.load.spritesheet("onePlayer", require("./assets/ship.png"), {
       frameWidth: 75,
       frameHeight: 160,
     });
   }
 
   create() {
-    this.add.tileSprite(0, 0, 800, 600, "space").setOrigin(0, 0);
+    this.add.tileSprite(0, 0, 800, 600, "background").setOrigin(0, 0);
 
     this.add.text(180, 100, "SPACESHOOTER", {
       fill: "#FFFFFF",
@@ -33,7 +33,7 @@ class StartScreen extends Phaser.Scene {
       .sprite(
         280,
         480,
-        "ship",
+        "onePlayer",
         this.add.text(225, 550, "Single Player", {
           fill: "#FFFFFF",
           fontSize: "16px",
