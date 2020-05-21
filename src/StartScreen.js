@@ -33,7 +33,7 @@ class StartScreen extends Phaser.Scene {
       .sprite(
         280,
         480,
-        "nePlayer",
+        "onePlayer",
         this.add.text(225, 550, "Single Player", {
           fill: "#FFFFFF",
           fontSize: "16px",
