@@ -103,10 +103,6 @@ class PlayGame extends Phaser.Scene {
     ship.setBounce(0.2);
     ship.setCollideWorldBounds(true);
 
-    // playerFire = this.physics.add
-    //   .sprite(ship.x, ship.y, "playerFire")
-    //   .setScale(0.5);
-
     enemyShots = this.physics.add.group();
     enemies = this.physics.add.group();
 
@@ -121,18 +117,8 @@ class PlayGame extends Phaser.Scene {
       delay: 2500,
       callback: addEnemyShots,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
-
-    // this.anims.create({
-    //   key: "playerFire",
-    //   frames: this.anims.generateFrameNames("playerFire", {
-    //     start: 6,
-    //     end: 6,
-    //   }),
-    //   frameRate: 1,
-    //   repeat: -1,
-    // });
 
     this.anims.create({
       key: "playerFire",
@@ -162,7 +148,7 @@ class PlayGame extends Phaser.Scene {
       key: "shotFired",
       frames: this.anims.generateFrameNames("enemyShot", { start: 0, end: 11 }),
       frameRate: 8,
-      repeat: 6
+      repeat: 6,
     });
 
     this.anims.create({
@@ -198,10 +184,9 @@ class PlayGame extends Phaser.Scene {
     enemyShots.children.iterate((child) => {
       child.play("shotFired", true);
       child.setVelocityY(200);
-    })
+    });
 
-    if (gameOver)
-    {
+    if (gameOver) {
       this.add.text(200, 100, "GAME OVER", {
         fill: "#FFFFFF",
         fontSize: "60px",
@@ -262,9 +247,15 @@ class PlayGame extends Phaser.Scene {
       ship.setVelocityX(0);
     }
 
-    if (cursors.space.isDown) {
-      this.shootLaser();
-    }
+    this.inputKeys = [
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
+    ];
+
+    this.inputKeys.forEach((key) => {
+      if (Phaser.Input.Keyboard.JustDown(key)) {
+        this.shootLaser();
+      }
+    });
   }
   shootLaser() {
     this.LaserGroup.fireLaser(ship.x, ship.y - 20);
@@ -278,19 +269,16 @@ function addEnemies() {
   enemies.add(enemy);
 }
 
-function addEnemyShots()
-{
-  enemies.children.iterate(child => {
-
+function addEnemyShots() {
+  enemies.children.iterate((child) => {
     if (child.active !== false) {
-      let shot = this.physics.add.sprite(child.x, child.y+50, "enemyShot");
+      let shot = this.physics.add.sprite(child.x, child.y + 50, "enemyShot");
       enemyShots.add(shot);
     }
-  })
+  });
 }
 
-function hitShip(ship, enemyObject)
-{
+function hitShip(ship, enemyObject) {
   enemyShotTimer.destroy();
   enemyObject.disableBody(true, true);
   ship.disableBody(true, true);
@@ -303,15 +291,16 @@ function hitShip(ship, enemyObject)
   gameOver = true;
 }
 
-function hitEnemy(enemy, fire)
-{
+function hitEnemy(enemy, fire) {
   score++;
   scoreText.setText(`Ships Destroyed: ${score}`);
 
   enemies.remove(enemy, true, true);
   enemy.active = false;
 
-  let explosion = this.physics.add.sprite(enemy.x, enemy.y, "explosion").setScale(0.6);
+  let explosion = this.physics.add
+    .sprite(enemy.x, enemy.y, "explosion")
+    .setScale(0.6);
   explosion.anims.play("shipExplosion", true);
 }
 
