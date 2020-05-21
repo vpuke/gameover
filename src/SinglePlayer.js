@@ -282,8 +282,7 @@ function addEnemyShots()
 {
   enemies.children.iterate(child => {
 
-    if (child.active !== false)
-    {
+    if (child.active !== false) {
       let shot = this.physics.add.sprite(child.x, child.y+50, "enemyShot");
       enemyShots.add(shot);
     }
@@ -306,8 +305,12 @@ function hitShip(ship, enemyObject)
 
 function hitEnemy(enemy, fire)
 {
+  score++;
+  scoreText.setText(`Ships Destroyed: ${score}`);
+
   enemies.remove(enemy, true, true);
   enemy.active = false;
+
   let explosion = this.physics.add.sprite(enemy.x, enemy.y, "explosion").setScale(0.6);
   explosion.anims.play("shipExplosion", true);
 }
