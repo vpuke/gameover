@@ -12,9 +12,6 @@ let gameOver = false;
 let enemyShotTimer;
 let score = 0;
 let scoreText;
-let playAgain;
-let highscore;
-
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -120,7 +117,7 @@ class PlayGame extends Phaser.Scene {
       delay: 15000,
       callback: difficulty,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
 
     this.anims.create({
@@ -180,31 +177,10 @@ class PlayGame extends Phaser.Scene {
     });
 
     if (gameOver) {
-      this.add.text(200, 100, "GAME OVER", {
-        fill: "#FFFFFF",
-        fontSize: "60px",
-        fontFamily: "Orbitron",
-      });
-
-      playAgain = this.add.text(290, 300, "PLAY AGAIN", {
-        fill: "#FFFFFF",
-        fontSize: "35px",
-        fontFamily: "Orbitron",
-      });
-
-      highscore = this.add.text(290, 350, "HIGHSCORE", {
-        fill: "#FFFFFF",
-        fontSize: "35px",
-        fontFamily: "Orbitron",
-      });
-
-      playAgain.setInteractive().on("pointerdown", () => {
-        gameOver = false;
-        score = 0;
-        addEnemiesDelay = 3500;
-
-        this.scene.restart();
-      });
+      setTimeout(() => {
+        this.scene.stop("PlayGame");
+        this.scene.start("GameOver");
+      }, 2000);
     }
 
     if (cursors.left.isDown && cursors.up.isDown) {
@@ -259,7 +235,6 @@ class PlayGame extends Phaser.Scene {
 }
 
 function addEnemies() {
-  console.log(addEnemiesDelay);
   let enemy = this.physics.add
     .sprite(Phaser.Math.Between(35, this.game.config.width - 35), -75, "enemy")
     .setScale(0.6);
@@ -303,8 +278,7 @@ function hitEnemy(enemy, fire) {
   explosion.anims.play("shipExplosion", true);
 }
 
-function difficulty()
-{
+function difficulty() {
   backgroundVelocity -= 0.2;
   addEnemiesDelay -= 200;
 }

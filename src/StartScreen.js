@@ -10,8 +10,6 @@ class StartScreen extends Phaser.Scene {
     });
   }
 
-  init() {}
-
   preload() {
     this.load.image("background", require("./assets/space.png"));
     this.load.spritesheet("onePlayer", require("./assets/ship.png"), {
@@ -26,7 +24,7 @@ class StartScreen extends Phaser.Scene {
     this.add.text(180, 100, "SPACESHOOTER", {
       fill: "#FFFFFF",
       fontSize: "50px",
-      fontFamily: "Orbitron"
+      fontFamily: "Orbitron",
     });
 
     var SinglePlayer = this.add
