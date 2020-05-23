@@ -2,10 +2,15 @@ import Phaser from "phaser";
 
 let playAgain;
 let highscore;
+let score;
 
 class GameOver extends Phaser.Scene {
   constructor() {
     super({ key: "GameOver" });
+  }
+
+  init(data) {
+    this.score = data.score;
   }
 
   preload() {}
@@ -16,6 +21,12 @@ class GameOver extends Phaser.Scene {
     this.add.text(200, 100, "GAME OVER", {
       fill: "#FFFFFF",
       fontSize: "60px",
+      fontFamily: "Orbitron",
+    });
+
+    this.add.text(200, 100, `Score: ${score}`, {
+      fill: "#FFFFFF",
+      fontSize: "20px",
       fontFamily: "Orbitron",
     });
 
