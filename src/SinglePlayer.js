@@ -10,7 +10,7 @@ let addEnemiesDelay = 3500;
 let addEnemyShotsDelay = 2500;
 let gameOver = false;
 let enemyShotTimer;
-let score = 0;
+let playerScore = 0;
 let scoreText;
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
@@ -179,7 +179,8 @@ class PlayGame extends Phaser.Scene {
     if (gameOver) {
       setTimeout(() => {
         this.scene.stop("PlayGame");
-        this.scene.start("GameOver");
+        this.scene.start("GameOver", { score: this.playerScore });
+        gameOver = false;
       }, 2000);
     }
 
@@ -266,8 +267,8 @@ function hitShip(ship, enemyObject) {
 }
 
 function hitEnemy(enemy, fire) {
-  score++;
-  scoreText.setText(`Ships Destroyed: ${score}`);
+  playerScore++;
+  scoreText.setText(`Ships Destroyed: ${playerScore}`);
 
   enemies.remove(enemy, true, true);
   enemy.active = false;
