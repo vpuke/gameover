@@ -10,11 +10,8 @@ let addEnemiesDelay = 3500;
 let addEnemyShotsDelay = 2500;
 let gameOver = false;
 let enemyShotTimer;
-let score = 0;
+let playerScore = 0;
 let scoreText;
-let playAgain;
-let highscore;
-
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -120,7 +117,7 @@ class PlayGame extends Phaser.Scene {
       delay: 15000,
       callback: difficulty,
       callbackScope: this,
-      loop: true
+      loop: true,
     });
 
     this.anims.create({
@@ -180,31 +177,11 @@ class PlayGame extends Phaser.Scene {
     });
 
     if (gameOver) {
-      this.add.text(200, 100, "GAME OVER", {
-        fill: "#FFFFFF",
-        fontSize: "60px",
-        fontFamily: "Orbitron",
-      });
-
-      playAgain = this.add.text(290, 300, "PLAY AGAIN", {
-        fill: "#FFFFFF",
-        fontSize: "35px",
-        fontFamily: "Orbitron",
-      });
-
-      highscore = this.add.text(290, 350, "HIGHSCORE", {
-        fill: "#FFFFFF",
-        fontSize: "35px",
-        fontFamily: "Orbitron",
-      });
-
-      playAgain.setInteractive().on("pointerdown", () => {
+      setTimeout(() => {
+        this.scene.stop("PlayGame");
+        this.scene.start("GameOver", { score: this.playerScore });
         gameOver = false;
-        score = 0;
-        addEnemiesDelay = 3500;
-
-        this.scene.restart();
-      });
+      }, 2000);
     }
 
     if (cursors.left.isDown && cursors.up.isDown) {
@@ -292,8 +269,8 @@ function hitShip(ship, enemyObject) {
 }
 
 function hitEnemy(enemy, fire) {
-  score++;
-  scoreText.setText(`Ships Destroyed: ${score}`);
+  playerScore++;
+  scoreText.setText(`Ships Destroyed: ${playerScore}`);
 
   enemies.remove(enemy, true, true);
   enemy.active = false;
@@ -304,8 +281,7 @@ function hitEnemy(enemy, fire) {
   explosion.anims.play("shipExplosion", true);
 }
 
-function difficulty()
-{
+function difficulty() {
   backgroundVelocity -= 0.2;
   addEnemiesDelay -= 200;
 }
