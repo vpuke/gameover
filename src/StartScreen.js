@@ -39,6 +39,7 @@ class StartScreen extends Phaser.Scene {
         255,
         480,
         "onePlayer",
+        [1],
         this.add.text(200, 550, "Single Player", {
           fill: "#FFFFFF",
           fontSize: "16px",
@@ -57,6 +58,7 @@ class StartScreen extends Phaser.Scene {
         570,
         480,
         "multiPlayer",
+        [1],
         this.add.text(530, 550, "Multiplayer", {
           fill: "#FFFFFF",
           fontSize: "16px",

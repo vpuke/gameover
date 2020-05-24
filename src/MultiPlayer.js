@@ -66,6 +66,7 @@ class MultiPlayer extends Phaser.Scene {
     this.load.image("space", require("./assets/space.png"));
 
     this.load.image("playerFire", require("./assets/shot.png"));
+    this.load.image("playerFire2", require("./assets/shot2.png"));
 
     this.load.spritesheet("ship", require("./assets/ship.png"), {
       frameWidth: 75,
@@ -99,11 +100,11 @@ class MultiPlayer extends Phaser.Scene {
 
     this.LaserGroup = new LaserGroup(this);
 
-    ship = this.physics.add.sprite(400, 500, "ship").setScale(0.4);
+    ship = this.physics.add.sprite(300, 500, "ship").setScale(0.4);
     ship.setBounce(0.2);
     ship.setCollideWorldBounds(true);
 
-    ship2 = this.physics.add.sprite(400, 500, "ship2").setScale(0.5);
+    ship2 = this.physics.add.sprite(500, 500, "ship2").setScale(0.5);
     ship2.setBounce(0.2);
     ship2.setCollideWorldBounds(true);
 
@@ -173,13 +174,15 @@ class MultiPlayer extends Phaser.Scene {
     });
 
     this.physics.add.collider(ship, enemies, hitShip, null, this);
+    this.physics.add.collider(ship2, enemies, hitShip, null, this);
     this.physics.add.overlap(ship, enemyShots, hitShip, null, this);
+    this.physics.add.overlap(ship2, enemyShots, hitShip, null, this);
     this.physics.add.overlap(enemies, this.LaserGroup, hitEnemy, null, this);
   }
 
   update(time, delta) {
     cursors = this.input.keyboard.createCursorKeys();
-    keys = this.input.keyboard.addKeys("A,S,D,W,TAB");
+    keys = this.input.keyboard.addKeys("A,S,D,W");
 
     space.tilePositionY += backgroundVelocity;
 
@@ -278,18 +281,31 @@ class MultiPlayer extends Phaser.Scene {
       ship2.setVelocityX(0);
     }
 
+    this.inputKeys2 = [
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TAB),
+    ];
+
+    this.inputKeys2.forEach((key) => {
+      if (Phaser.Input.Keyboard.JustDown(key)) {
+        this.shootLaserPlayer2();
+      }
+    });
+
     this.inputKeys = [
       this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
     ];
 
     this.inputKeys.forEach((key) => {
       if (Phaser.Input.Keyboard.JustDown(key)) {
-        this.shootLaser();
+        this.shootLaserPlayer1();
       }
     });
   }
-  shootLaser() {
+  shootLaserPlayer1() {
     this.LaserGroup.fireLaser(ship.x, ship.y - 20);
+  }
+  shootLaserPlayer2() {
+    this.LaserGroup.fireLaser(ship2.x, ship2.y - 20);
   }
 }
 
