@@ -3,6 +3,7 @@ import Phaser from "phaser";
 let playAgain;
 let highscore;
 let score;
+let gameOver = false;
 
 class GameOver extends Phaser.Scene {
   constructor() {
@@ -45,7 +46,7 @@ class GameOver extends Phaser.Scene {
     playAgain.setInteractive().on("pointerdown", () => {
       gameOver = false;
       this.scene.stop("GameOver");
-      this.scene.start("PlayGame");
+      this.scene.start("StartScreen");
     });
   }
 
