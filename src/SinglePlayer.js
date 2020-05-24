@@ -12,6 +12,8 @@ let gameOver = false;
 let enemyShotTimer;
 let playerScore = 0;
 let scoreText;
+let sfx;
+let sound;
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -46,6 +48,7 @@ class LaserGroup extends Phaser.Physics.Arcade.Group {
       key: "playerFire",
     });
   }
+
   fireLaser(x, y) {
     const laser = this.getFirstDead(false);
     if (laser) {
@@ -56,13 +59,14 @@ class LaserGroup extends Phaser.Physics.Arcade.Group {
 
 class PlayGame extends Phaser.Scene {
   constructor() {
-    super({ key: "PlayGame" });
+    super({
+      key: "PlayGame",
+    });
     this.LaserGroup;
   }
 
   preload() {
     this.load.image("space", require("./assets/space.png"));
-
     this.load.image("playerFire", require("./assets/shot.png"));
 
     this.load.spritesheet("ship", require("./assets/ship.png"), {
@@ -84,6 +88,10 @@ class PlayGame extends Phaser.Scene {
       frameWidth: 34,
       frameHeight: 64,
     });
+
+    this.load.audio("gameMusic", require("./assets/space_music.ogg"));
+    this.load.audio("explosionSound", require("./assets/explosion.wav"));
+    this.load.audio("shotSound", require("./assets/shot.wav"));
   }
 
   create() {
@@ -147,6 +155,14 @@ class PlayGame extends Phaser.Scene {
       frameRate: 10,
       repeat: 0,
     });
+
+    sfx = {
+      music: this.sound.add("gameMusic"),
+      shot: this.sound.add("shotSound"),
+      explosion: this.sound.add("explosionSound")
+    };
+
+    sfx.music.play();
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -231,6 +247,7 @@ class PlayGame extends Phaser.Scene {
     });
   }
   shootLaser() {
+    sfx.shot.play();
     this.LaserGroup.fireLaser(ship.x, ship.y - 20);
   }
 }
@@ -252,6 +269,7 @@ function addEnemyShots() {
 }
 
 function hitShip(ship, enemyObject) {
+  sfx.explosion.play();
   enemyShotTimer.destroy();
   enemyObject.disableBody(true, true);
   ship.disableBody(true, true);
@@ -271,6 +289,8 @@ function hitShip(ship, enemyObject) {
 function hitEnemy(enemy, fire) {
   playerScore++;
   scoreText.setText(`Ships Destroyed: ${playerScore}`);
+
+  sfx.explosion.play();
 
   enemies.remove(enemy, true, true);
   enemy.active = false;
