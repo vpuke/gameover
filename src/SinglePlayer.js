@@ -255,10 +255,12 @@ function hitShip(ship, enemyObject) {
   enemyShotTimer.destroy();
   enemyObject.disableBody(true, true);
   ship.disableBody(true, true);
+
   let explosion = this.physics.add
     .sprite(ship.x, ship.y, "explosion")
     .setScale(0.6);
   explosion.anims.play("shipExplosion", true);
+
   this.physics.pause();
 
   backgroundVelocity = 0;
