@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 let SinglePlayer;
+let MultiPlayer;
 let soundOn;
 let soundOff;
 let select;
@@ -17,9 +18,15 @@ class StartScreen extends Phaser.Scene {
     this.load.image("soundOn", require("./assets/sound_on.png"));
     this.load.image("soundOff", require("./assets/sound_off.png"));
     this.load.image("background", require("./assets/space.png"));
+
     this.load.spritesheet("onePlayer", require("./assets/ship.png"), {
       frameWidth: 75,
       frameHeight: 160,
+    });
+
+    this.load.spritesheet("multiPlayer", require("./assets/ship2.png"), {
+      frameWidth: 61,
+      frameHeight: 157,
     });
 
     this.load.audio("select", require("./assets/select.ogg"));
@@ -53,10 +60,11 @@ class StartScreen extends Phaser.Scene {
 
     SinglePlayer = this.add
       .sprite(
-        280,
+        255,
         480,
         "onePlayer",
-        this.add.text(225, 550, "Single Player", {
+        [1],
+        this.add.text(200, 550, "Single Player", {
           fill: "#FFFFFF",
           fontSize: "16px",
           fontFamily: "Orbitron",
@@ -67,9 +75,30 @@ class StartScreen extends Phaser.Scene {
     SinglePlayer.setInteractive().on("pointerdown", () => {
       select.play();
       this.scene.stop("StartScreen");
-      this.scene.start("PlayGame");
+      this.scene.stop("MultiPlayer");
+      this.scene.start("PlayGame", {});
+    });
+
+    var MultiPlayer = this.add
+      .sprite(
+        570,
+        480,
+        "multiPlayer",
+        [1],
+        this.add.text(530, 550, "Multiplayer", {
+          fill: "#FFFFFF",
+          fontSize: "16px",
+          fontFamily: "Orbitron",
+        })
+      )
+      .setScale(0.8);
+    MultiPlayer.setInteractive().on("pointerdown", () => {
+      this.scene.stop("StartScreen");
+      this.scene.stop("PlayGame");
+      this.scene.start("MultiPlayer", {});
     });
   }
+  update() {}
 }
 
 export default StartScreen;
