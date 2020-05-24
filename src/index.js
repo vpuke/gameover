@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import StartScreen from "./StartScreen";
 import PlayGame from "./SinglePlayer";
 import GameOver from "./GameOver";
+import MultiPlayer from "./MultiPlayer";
 
 const config = {
   type: Phaser.AUTO,
@@ -14,7 +15,7 @@ const config = {
       debug: false,
     },
   },
-  scene: [PlayGame, StartScreen, GameOver],
+  scene: [PlayGame, StartScreen, GameOver, MultiPlayer],
 };
 
 let game = new Phaser.Game(config);
