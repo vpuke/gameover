@@ -14,6 +14,9 @@ let gameOver = false;
 let enemyShotTimer;
 let playerScore = 0;
 let scoreText;
+let sfx;
+let soundOn;
+let soundOff;
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -92,6 +95,10 @@ class MultiPlayer extends Phaser.Scene {
       frameWidth: 34,
       frameHeight: 64,
     });
+
+    this.load.audio("gameMusic", require("./assets/space_music.ogg"));
+    this.load.audio("explosionSound", require("./assets/explosion.wav"));
+    this.load.audio("shotSound", require("./assets/shot.wav"));
   }
 
   create() {
@@ -171,6 +178,31 @@ class MultiPlayer extends Phaser.Scene {
       fontSize: "28px",
       fill: "#FFFFFF",
       fontFamily: "Orbitron",
+    });
+
+    sfx = {
+      music: this.sound.add("gameMusic", {volume: 0.5}),
+      shot: this.sound.add("shotSound"),
+      explosion: this.sound.add("explosionSound")
+    };
+
+    sfx.music.play();
+
+    soundOn = this.add.image(750, 550, "soundOn").setScale(0.15).setOrigin(0, 0);
+    soundOff = this.add.image(750, 550, "soundOff").setScale(0.15).setOrigin(0, 0);
+
+    soundOff.visible = false;
+
+    soundOn.setInteractive().on("pointerdown", () => {
+      soundOn.visible = false;
+      soundOff.visible = true;
+      sfx.music.mute = true;
+    });
+
+    soundOff.setInteractive().on("pointerdown", () => {
+      soundOn.visible = true;
+      soundOff.visible = false;
+      sfx.music.mute = false;
     });
 
     this.physics.add.collider(ship, enemies, hitShip, null, this);
@@ -287,7 +319,7 @@ class MultiPlayer extends Phaser.Scene {
 
     this.inputKeys2.forEach((key) => {
       if (Phaser.Input.Keyboard.JustDown(key)) {
-        this.shootLaserPlayer2();
+        this.shootLaserPlayer(ship2.x, ship2.y - 20);
       }
     });
 
@@ -297,15 +329,14 @@ class MultiPlayer extends Phaser.Scene {
 
     this.inputKeys.forEach((key) => {
       if (Phaser.Input.Keyboard.JustDown(key)) {
-        this.shootLaserPlayer1();
+        this.shootLaserPlayer(ship.x, ship.y - 20);
       }
     });
   }
-  shootLaserPlayer1() {
-    this.LaserGroup.fireLaser(ship.x, ship.y - 20);
-  }
-  shootLaserPlayer2() {
-    this.LaserGroup.fireLaser(ship2.x, ship2.y - 20);
+
+  shootLaserPlayer(shipX, shipY) {
+    sfx.shot.play();
+    this.LaserGroup.fireLaser(shipX, shipY);
   }
 }
 
