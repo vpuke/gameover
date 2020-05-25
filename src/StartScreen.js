@@ -78,6 +78,11 @@ class StartScreen extends Phaser.Scene {
         })
       )
       .setScale(0.7);
+    this.add.text(165, 530, "UP, DOWN, LEFT, RIGHT, SPACE", {
+      fill: "#FFFFFF",
+      fontSize: "10px",
+      fontFamily: "Orbitron",
+    });
 
     SinglePlayer.setInteractive().on("pointerdown", () => {
       select.play();
@@ -87,17 +92,22 @@ class StartScreen extends Phaser.Scene {
 
     var MultiPlayer = this.add
       .sprite(
-        570,
+        540,
         400,
         "multiPlayer",
         [1],
-        this.add.text(530, 490, "Multiplayer", {
+        this.add.text(500, 490, "Multiplayer", {
           fill: "#FFFFFF",
           fontSize: "16px",
           fontFamily: "Orbitron",
         })
       )
       .setScale(0.8);
+    this.add.text(508, 530, "W, S, A, D, TAB", {
+      fill: "#FFFFFF",
+      fontSize: "10px",
+      fontFamily: "Orbitron",
+    });
     MultiPlayer.setInteractive().on("pointerdown", () => {
       this.scene.stop("StartScreen");
       this.scene.stop("PlayGame");
