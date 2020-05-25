@@ -38,8 +38,14 @@ class StartScreen extends Phaser.Scene {
 
     select = this.sound.add("select");
 
-    soundOn = this.add.image(750, 550, "soundOn").setScale(0.15).setOrigin(0, 0);
-    soundOff = this.add.image(750, 550, "soundOff").setScale(0.15).setOrigin(0, 0);
+    soundOn = this.add
+      .image(750, 550, "soundOn")
+      .setScale(0.15)
+      .setOrigin(0, 0);
+    soundOff = this.add
+      .image(750, 550, "soundOff")
+      .setScale(0.15)
+      .setOrigin(0, 0);
 
     soundOff.visible = false;
 
