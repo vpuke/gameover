@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import PlayGame from "./SinglePlayer";
 
 let SinglePlayer;
 let MultiPlayer;
@@ -58,7 +59,7 @@ class StartScreen extends Phaser.Scene {
       soundOff.visible = false;
     });
 
-    this.add.text(160, 100, "SPACESHOOTER", {
+    this.add.text(150, 100, "SPACESHOOTER", {
       fill: "#FFFFFF",
       fontSize: "50px",
       fontFamily: "Orbitron",
@@ -67,10 +68,10 @@ class StartScreen extends Phaser.Scene {
     SinglePlayer = this.add
       .sprite(
         255,
-        480,
+        400,
         "onePlayer",
         [1],
-        this.add.text(200, 550, "Single Player", {
+        this.add.text(200, 490, "Single Player", {
           fill: "#FFFFFF",
           fontSize: "16px",
           fontFamily: "Orbitron",
@@ -81,17 +82,16 @@ class StartScreen extends Phaser.Scene {
     SinglePlayer.setInteractive().on("pointerdown", () => {
       select.play();
       this.scene.stop("StartScreen");
-      this.scene.stop("MultiPlayer");
-      this.scene.start("PlayGame", {});
+      this.scene.start("PlayGame");
     });
 
     var MultiPlayer = this.add
       .sprite(
-        540,
-        480,
+        570,
+        400,
         "multiPlayer",
         [1],
-        this.add.text(500, 550, "Multiplayer", {
+        this.add.text(530, 490, "Multiplayer", {
           fill: "#FFFFFF",
           fontSize: "16px",
           fontFamily: "Orbitron",
@@ -101,7 +101,7 @@ class StartScreen extends Phaser.Scene {
     MultiPlayer.setInteractive().on("pointerdown", () => {
       this.scene.stop("StartScreen");
       this.scene.stop("PlayGame");
-      this.scene.start("MultiPlayer", {});
+      this.scene.start("MultiPlayer");
     });
   }
   update() {}
