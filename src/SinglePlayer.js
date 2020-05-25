@@ -13,7 +13,8 @@ let enemyShotTimer;
 let playerScore = 0;
 let scoreText;
 let sfx;
-let sound;
+let soundOn;
+let soundOff;
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -157,12 +158,30 @@ class PlayGame extends Phaser.Scene {
     });
 
     sfx = {
-      music: this.sound.add("gameMusic"),
+      music: this.sound.add("gameMusic", {volume: 0.5}),
       shot: this.sound.add("shotSound"),
       explosion: this.sound.add("explosionSound")
     };
 
     sfx.music.play();
+
+    soundOn = this.add.image(750, 550, "soundOn").setScale(0.15).setOrigin(0, 0);
+    soundOff = this.add.image(750, 550, "soundOff").setScale(0.15).setOrigin(0, 0);
+
+    soundOff.visible = false;
+
+    soundOn.setInteractive().on("pointerdown", () => {
+      soundOn.visible = false;
+      soundOff.visible = true;
+      sfx.music.mute = true;
+    });
+
+    soundOff.setInteractive().on("pointerdown", () => {
+      soundOn.visible = true;
+      soundOff.visible = false;
+      sfx.music.mute = false;
+    });
+
 
     cursors = this.input.keyboard.createCursorKeys();
 
