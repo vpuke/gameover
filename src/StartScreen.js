@@ -37,8 +37,14 @@ class StartScreen extends Phaser.Scene {
 
     select = this.sound.add("select");
 
-    soundOn = this.add.image(750, 550, "soundOn").setScale(0.15).setOrigin(0, 0);
-    soundOff = this.add.image(750, 550, "soundOff").setScale(0.15).setOrigin(0, 0);
+    soundOn = this.add
+      .image(750, 550, "soundOn")
+      .setScale(0.15)
+      .setOrigin(0, 0);
+    soundOff = this.add
+      .image(750, 550, "soundOff")
+      .setScale(0.15)
+      .setOrigin(0, 0);
 
     soundOff.visible = false;
 
@@ -52,7 +58,7 @@ class StartScreen extends Phaser.Scene {
       soundOff.visible = false;
     });
 
-    this.add.text(180, 100, "SPACESHOOTER", {
+    this.add.text(160, 100, "SPACESHOOTER", {
       fill: "#FFFFFF",
       fontSize: "50px",
       fontFamily: "Orbitron",
@@ -81,11 +87,11 @@ class StartScreen extends Phaser.Scene {
 
     var MultiPlayer = this.add
       .sprite(
-        570,
+        540,
         480,
         "multiPlayer",
         [1],
-        this.add.text(530, 550, "Multiplayer", {
+        this.add.text(500, 550, "Multiplayer", {
           fill: "#FFFFFF",
           fontSize: "16px",
           fontFamily: "Orbitron",
