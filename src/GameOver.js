@@ -17,10 +17,6 @@ class GameOver extends Phaser.Scene {
     isMultiPlayer = data.isMultiPlayer;
   }
 
-  preload() {
-    this.load.image("box", require("./assets/box.png"));
-  }
-
   create() {
     this.add.tileSprite(0, 0, 800, 600, "space").setOrigin(0, 0);
 
