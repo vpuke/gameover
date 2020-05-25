@@ -2,6 +2,9 @@ import Phaser from "phaser";
 
 let SinglePlayer;
 let MultiPlayer;
+let soundOn;
+let soundOff;
+let select;
 
 class StartScreen extends Phaser.Scene {
   constructor() {
@@ -12,6 +15,8 @@ class StartScreen extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image("soundOn", require("./assets/sound_on.png"));
+    this.load.image("soundOff", require("./assets/sound_off.png"));
     this.load.image("background", require("./assets/space.png"));
 
     this.load.spritesheet("onePlayer", require("./assets/ship.png"), {
@@ -23,10 +28,29 @@ class StartScreen extends Phaser.Scene {
       frameWidth: 61,
       frameHeight: 157,
     });
+
+    this.load.audio("select", require("./assets/select.ogg"));
   }
 
   create() {
     this.add.tileSprite(0, 0, 800, 600, "background").setOrigin(0, 0);
+
+    select = this.sound.add("select");
+
+    soundOn = this.add.image(750, 550, "soundOn").setScale(0.15).setOrigin(0, 0);
+    soundOff = this.add.image(750, 550, "soundOff").setScale(0.15).setOrigin(0, 0);
+
+    soundOff.visible = false;
+
+    soundOn.setInteractive().on("pointerdown", () => {
+      soundOn.visible = false;
+      soundOff.visible = true;
+    });
+
+    soundOff.setInteractive().on("pointerdown", () => {
+      soundOn.visible = true;
+      soundOff.visible = false;
+    });
 
     this.add.text(180, 100, "SPACESHOOTER", {
       fill: "#FFFFFF",
@@ -34,7 +58,7 @@ class StartScreen extends Phaser.Scene {
       fontFamily: "Orbitron",
     });
 
-    var SinglePlayer = this.add
+    SinglePlayer = this.add
       .sprite(
         255,
         480,
@@ -47,7 +71,9 @@ class StartScreen extends Phaser.Scene {
         })
       )
       .setScale(0.7);
+
     SinglePlayer.setInteractive().on("pointerdown", () => {
+      select.play();
       this.scene.stop("StartScreen");
       this.scene.stop("MultiPlayer");
       this.scene.start("PlayGame", {});
