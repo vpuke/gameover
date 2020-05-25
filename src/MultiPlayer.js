@@ -235,14 +235,13 @@ class MultiPlayer extends Phaser.Scene {
     });
 
     if (isGameOver) {
-      setTimeout(() => {
         sfx.music.stop();
         this.scene.stop("PlayGame");
         this.scene.start("GameOver", { score: playerScore, isMultiPlayer: isMultiPlayer });
         isGameOver = false;
         isShipAlive = true;
         isShip2Alive = true;
-      }, 2000);
+        playerScore = 0;
     }
 
     // PLayer one keyboard
