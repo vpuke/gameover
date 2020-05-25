@@ -84,3 +84,7 @@ Carried out by:
 
 ## License
 <a href="/LICENSE">MIT</a>
+
+<p align="center">
+<img src="https://media.giphy.com/media/Rk7jn49W6tDit0lK7F/giphy.gif">
+</p>
