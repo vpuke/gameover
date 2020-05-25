@@ -364,8 +364,7 @@ function addEnemyShots() {
 
 function hitShip(ship, enemyObject) {
   sfx.explosion.play();
-  enemyShotTimer.destroy();
-  enemyObject.disableBody(true, true);
+
   ship.disableBody(true, true);
 
   let explosion = this.physics.add
@@ -385,6 +384,8 @@ function hitShip(ship, enemyObject) {
 
   if (!isShipAlive && !isShip2Alive)
   {
+    enemyShotTimer.destroy();
+    enemyObject.disableBody(true, true);
     this.physics.pause();
     backgroundVelocity = 0;
     isGameOver = true;
@@ -394,6 +395,8 @@ function hitShip(ship, enemyObject) {
 function hitEnemy(enemy, fire) {
   playerScore++;
   scoreText.setText(`Ships Destroyed: ${playerScore}`);
+
+  sfx.explosion.play();
 
   enemies.remove(enemy, true, true);
   enemy.active = false;
