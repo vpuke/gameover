@@ -218,12 +218,11 @@ class PlayGame extends Phaser.Scene {
     });
 
     if (isGameOver) {
-      setTimeout(() => {
-        this.scene.stop("PlayGame");
-        this.scene.start("GameOver", { score: playerScore, isMultiPlayer: isMultiPlayer });
-        sfx.music.stop();
-        isGameOver = false;
-      }, 2000);
+      this.scene.stop("PlayGame");
+      this.scene.start("GameOver", { score: playerScore, isMultiPlayer: isMultiPlayer });
+      sfx.music.stop();
+      isGameOver = false;
+      playerScore = 0;
     }
 
     if (cursors.left.isDown && cursors.up.isDown) {
