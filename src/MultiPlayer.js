@@ -72,7 +72,6 @@ class MultiPlayer extends Phaser.Scene {
     this.load.image("space", require("./assets/space.png"));
 
     this.load.image("playerFire", require("./assets/shot.png"));
-    this.load.image("playerFire2", require("./assets/shot2.png"));
 
     this.load.spritesheet("ship", require("./assets/ship.png"), {
       frameWidth: 75,
@@ -184,15 +183,21 @@ class MultiPlayer extends Phaser.Scene {
     });
 
     sfx = {
-      music: this.sound.add("gameMusic", {volume: 0.5}),
+      music: this.sound.add("gameMusic", { volume: 0.5 }),
       shot: this.sound.add("shotSound"),
-      explosion: this.sound.add("explosionSound")
+      explosion: this.sound.add("explosionSound"),
     };
 
     sfx.music.play();
 
-    soundOn = this.add.image(750, 550, "soundOn").setScale(0.15).setOrigin(0, 0);
-    soundOff = this.add.image(750, 550, "soundOff").setScale(0.15).setOrigin(0, 0);
+    soundOn = this.add
+      .image(750, 550, "soundOn")
+      .setScale(0.15)
+      .setOrigin(0, 0);
+    soundOff = this.add
+      .image(750, 550, "soundOff")
+      .setScale(0.15)
+      .setOrigin(0, 0);
 
     soundOff.visible = false;
 
@@ -235,13 +240,16 @@ class MultiPlayer extends Phaser.Scene {
     });
 
     if (isGameOver) {
-        sfx.music.stop();
-        this.scene.stop("PlayGame");
-        this.scene.start("GameOver", { score: playerScore, isMultiPlayer: isMultiPlayer });
-        isGameOver = false;
-        isShipAlive = true;
-        isShip2Alive = true;
-        playerScore = 0;
+      sfx.music.stop();
+      this.scene.stop("PlayGame");
+      this.scene.start("GameOver", {
+        score: playerScore,
+        isMultiPlayer: isMultiPlayer,
+      });
+      isGameOver = false;
+      isShipAlive = true;
+      isShip2Alive = true;
+      playerScore = 0;
     }
 
     // PLayer one keyboard
@@ -371,18 +379,15 @@ function hitShip(ship, enemyObject) {
     .setScale(0.6);
   explosion.anims.play("shipExplosion", true);
 
-  if (ship.texture.key === "ship")
-  {
+  if (ship.texture.key === "ship") {
     isShipAlive = false;
   }
 
-  if (ship.texture.key === "ship2")
-  {
+  if (ship.texture.key === "ship2") {
     isShip2Alive = false;
   }
 
-  if (!isShipAlive && !isShip2Alive)
-  {
+  if (!isShipAlive && !isShip2Alive) {
     enemyShotTimer.destroy();
     enemyObject.disableBody(true, true);
     this.physics.pause();
