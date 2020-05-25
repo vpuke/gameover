@@ -18,7 +18,7 @@ class GameOver extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("box", require("./assets/box.png"));
+    this.load.image("clickBox", require("./assets/box.png"));
   }
 
   create() {
@@ -42,7 +42,7 @@ class GameOver extends Phaser.Scene {
       fontFamily: "Orbitron",
     });
 
-    box = this.add.image(265, 395, "box").setOrigin(0, 0);
+    box = this.add.image(265, 395, "clickBox").setOrigin(0, 0);
 
     box.setInteractive().on("pointerdown", () => {
       this.scene.stop("GameOver");

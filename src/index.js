@@ -15,7 +15,11 @@ const config = {
       debug: false,
     },
   },
-  scene: [StartScreen, PlayGame, MultiPlayer, GameOver],
+  scene: [StartScreen],
 };
 
 let game = new Phaser.Game(config);
+
+game.scene.add("PlayGame", PlayGame, false);
+game.scene.add("MultiPlayer", MultiPlayer, false);
+game.scene.add("GameOver", GameOver, false);
