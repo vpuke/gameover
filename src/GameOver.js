@@ -1,56 +1,54 @@
 import Phaser from "phaser";
 
-let playAgain;
-let highscore;
+let box;
 let score;
-let gameOver = false;
+let isMultiPlayer;
+let isGameOver = false;
 
 class GameOver extends Phaser.Scene {
   constructor() {
-    super({ key: "GameOver" });
+    super({
+      key: "GameOver"
+    });
   }
 
-  init(data) {
-    this.score = data.score;
+  init (data) {
+    score = data.score;
+    isMultiPlayer = data.isMultiPlayer;
   }
 
-  preload() {}
+  preload() {
+    this.load.image("box", require("./assets/box.png"));
+  }
 
   create() {
     this.add.tileSprite(0, 0, 800, 600, "space").setOrigin(0, 0);
 
-    this.add.text(200, 100, "GAME OVER", {
+    this.add.text(200, 200, "GAME OVER", {
       fill: "#FFFFFF",
       fontSize: "60px",
       fontFamily: "Orbitron",
     });
 
-    this.add.text(200, 100, `Score: ${score}`, {
-      fill: "#FFFFFF",
-      fontSize: "20px",
-      fontFamily: "Orbitron",
-    });
-
-    playAgain = this.add.text(290, 300, "PLAY AGAIN", {
+    this.add.text(300, 320, `SCORE: ${score}`, {
       fill: "#FFFFFF",
       fontSize: "35px",
       fontFamily: "Orbitron",
     });
 
-    highscore = this.add.text(290, 350, "HIGHSCORE", {
+    this.add.text(275, 400, "PLAY AGAIN", {
       fill: "#FFFFFF",
       fontSize: "35px",
       fontFamily: "Orbitron",
     });
 
-    playAgain.setInteractive().on("pointerdown", () => {
-      gameOver = false;
+    box = this.add.image(265, 395, "box").setOrigin(0, 0);
+
+    box.setInteractive().on("pointerdown", () => {
       this.scene.stop("GameOver");
       this.scene.start("StartScreen");
     });
   }
-
-  update() {}
 }
 
 export default GameOver;

@@ -10,13 +10,16 @@ let enemyShots;
 let cursors;
 let addEnemiesDelay = 3500;
 let addEnemyShotsDelay = 2500;
-let gameOver = false;
+let isGameOver = false;
 let enemyShotTimer;
 let playerScore = 0;
 let scoreText;
 let sfx;
 let soundOn;
 let soundOff;
+let isShipAlive = true;
+let isShip2Alive = true;
+let isMultiPlayer = true;
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -231,11 +234,14 @@ class MultiPlayer extends Phaser.Scene {
       child.setVelocityY(200);
     });
 
-    if (gameOver) {
+    if (isGameOver) {
       setTimeout(() => {
+        sfx.music.stop();
         this.scene.stop("PlayGame");
-        this.scene.start("GameOver", { score: this.playerScore });
-        gameOver = false;
+        this.scene.start("GameOver", { score: playerScore, isMultiPlayer: isMultiPlayer });
+        isGameOver = false;
+        isShipAlive = true;
+        isShip2Alive = true;
       }, 2000);
     }
 
@@ -357,6 +363,7 @@ function addEnemyShots() {
 }
 
 function hitShip(ship, enemyObject) {
+  sfx.explosion.play();
   enemyShotTimer.destroy();
   enemyObject.disableBody(true, true);
   ship.disableBody(true, true);
@@ -366,11 +373,22 @@ function hitShip(ship, enemyObject) {
     .setScale(0.6);
   explosion.anims.play("shipExplosion", true);
 
-  this.physics.pause();
+  if (ship.texture.key === "ship")
+  {
+    isShipAlive = false;
+  }
 
-  backgroundVelocity = 0;
+  if (ship.texture.key === "ship2")
+  {
+    isShip2Alive = false;
+  }
 
-  gameOver = true;
+  if (!isShipAlive && !isShip2Alive)
+  {
+    this.physics.pause();
+    backgroundVelocity = 0;
+    isGameOver = true;
+  }
 }
 
 function hitEnemy(enemy, fire) {

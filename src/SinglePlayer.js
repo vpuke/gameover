@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import GameOver from "./GameOver";
 
 let space;
 let backgroundVelocity;
@@ -8,13 +9,14 @@ let enemyShots;
 let cursors;
 let addEnemiesDelay = 3500;
 let addEnemyShotsDelay = 2500;
-let gameOver = false;
+let isGameOver = false;
 let enemyShotTimer;
 let playerScore = 0;
 let scoreText;
 let sfx;
 let soundOn;
 let soundOff;
+let isMultiPlayer = false;
 
 class Laser extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -64,6 +66,10 @@ class PlayGame extends Phaser.Scene {
       key: "PlayGame",
     });
     this.LaserGroup;
+  }
+
+  init (data) {
+    isGameOver = data.isGameOver;
   }
 
   preload() {
@@ -211,11 +217,12 @@ class PlayGame extends Phaser.Scene {
       child.setVelocityY(200);
     });
 
-    if (gameOver) {
+    if (isGameOver) {
       setTimeout(() => {
         this.scene.stop("PlayGame");
-        this.scene.start("GameOver", { score: this.playerScore });
-        gameOver = false;
+        this.scene.start("GameOver", { score: playerScore, isMultiPlayer: isMultiPlayer });
+        sfx.music.stop();
+        isGameOver = false;
       }, 2000);
     }
 
@@ -302,7 +309,7 @@ function hitShip(ship, enemyObject) {
 
   backgroundVelocity = 0;
 
-  gameOver = true;
+  isGameOver = true;
 }
 
 function hitEnemy(enemy, fire) {
