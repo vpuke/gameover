@@ -75,7 +75,6 @@ class PlayGame extends Phaser.Scene {
   preload() {
     this.load.image("space", require("./assets/space.png"));
     this.load.image("playerFire", require("./assets/shot.png"));
-    this.load.image("box", require("./assets/box.png"));
 
     this.load.spritesheet("ship", require("./assets/ship.png"), {
       frameWidth: 75,
