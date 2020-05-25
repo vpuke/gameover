@@ -41,10 +41,11 @@ $ npm run dev
 * <a href="https://github.com/oaflindberg">Andreas Lindberg</a>
 
 ## Regular not so professional testers
-*
-*
-*
-*
+* Stefan Holm
+* Louise Warenius
+* Vilma Canfjorden
+* Anna Stenler
+* Israel Alva
 
 ## Code Review
 *
@@ -62,6 +63,24 @@ Carried out by:
 * <a href="https://github.com/mikaelaalu">Mikaela Lundsgård</a>
 * <a href="https://github.com/alexandergustafssonflink">Alexander Gustafsson Flink</a>
 
+## Pull requests
+* <a href="https://github.com/Vpuke/gameover/pull/1">Project structure</a>
+* <a href="https://github.com/Vpuke/gameover/pull/3">Space background</a>
+* <a href="https://github.com/Vpuke/gameover/pull/4">Space ship</a>
+* <a href="https://github.com/Vpuke/gameover/pull/5">Startscreen</a>
+* <a href="https://github.com/Vpuke/gameover/pull/6">Spritesheets</a>
+* <a href="https://github.com/Vpuke/gameover/pull/7">Implement shoot</a>
+* <a href="https://github.com/Vpuke/gameover/pull/9">Enemies, explosion on collide, fire from enemy</a>
+* <a href="https://github.com/Vpuke/gameover/pull/10">Shoot x times</a>
+* <a href="https://github.com/Vpuke/gameover/pull/11">Enemy shot timer, colliders, explotions on enemies, game over screen.</a>
+* <a href="https://github.com/Vpuke/gameover/pull/12">Score points</a>
+* <a href="https://github.com/Vpuke/gameover/pull/14">Difficulty timer</a>
+* <a href="https://github.com/Vpuke/gameover/pull/13">Updated shooting</a>
+* <a href="https://github.com/Vpuke/gameover/pull/19">Multiplayer, second ship</a>
+* <a href="https://github.com/Vpuke/gameover/pull/20">Multiplayer shoot</a>
+* <a href="https://github.com/Vpuke/gameover/pull/21">Sound effects</a>
+
+
 
 ## License
-MIT 
+<a href="/LICENSE">MIT</a>
