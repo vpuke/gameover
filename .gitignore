@@ -4,6 +4,3 @@
 # misc
 .DS_Store
 .cache
-
-#Build
-/dist

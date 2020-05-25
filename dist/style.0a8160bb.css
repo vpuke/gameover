@@ -1,0 +1,15 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+}
+
+canvas {
+  border: 2px solid white;
+}
+
+
+/*# sourceMappingURL=/style.0a8160bb.css.map */
