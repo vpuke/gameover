@@ -48,16 +48,20 @@ $ npm run dev
 * Israel Alva
 
 ## Code Review
-*
-*
-*
-*
-*
-*
-*
-*
-*
-*
+* <a href=“https://github.com/Vpuke/gameover/blob/b688444b6177b2a70a55248748f9466cf51f79ff/src/StartScreen.js#L93”> StartScreen.js L:93 </a>
+Maybe use const or let instead of var
+* <a href=“https://github.com/Vpuke/gameover/blob/b688444b6177b2a70a55248748f9466cf51f79ff/src/GameOver.js#L34”> GameOver.js L:34 </a>
+Could be an idea to put this styling in a variable to prevent repeating same code two times in a row
+* <a href=“https://github.com/Vpuke/gameover/blob/b688444b6177b2a70a55248748f9466cf51f79ff/src/GameOver.js#L40”> GameOver.js L:41</a>
+Could be an idea to put this styling in a variable to prevent repeating same code two times in a row
+* <a href=“https://github.com/Vpuke/gameover/blob/b688444b6177b2a70a55248748f9466cf51f79ff/index.html#L10”> index.html L:10 </a>
+Comment that could be deleted
+* <a href=“https://github.com/Vpuke/gameover/blob/b688444b6177b2a70a55248748f9466cf51f79ff/src/StartScreen.js#L111”> StartScreen.js L:111 </a>
+ It would be more readable if you put thus on a new row
+* <a href=“https://github.com/Vpuke/gameover/blob/b688444b6177b2a70a55248748f9466cf51f79ff/src/StartScreen.js#L107”> StartScreen.js L:107 </a>
+ It would be more readable if you put thus on a new row
+ 
+Very well done, You are very very professional programmers both of ya.
 
 Carried out by: 
 * <a href="https://github.com/mikaelaalu">Mikaela Lundsgård</a>
